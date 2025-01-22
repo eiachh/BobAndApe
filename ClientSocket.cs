@@ -1,95 +1,101 @@
 using Godot;
 using System;
+using Package;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.Json;
+using PInfo;
 
 public static class ClientSingleton
 {
-    public static ClientSocket Socket { get; set; }
-    static ClientSingleton()
-    {
-        Socket = new ClientSocket();
-    }
+	public static ClientSocket Socket { get; set; }
+	private static PlayerInfo Info { get; set; }
+
+	static ClientSingleton()
+	{
+		Socket = new ClientSocket();
+	}
 }
+
 
 public partial class ClientSocket : Node
 {
-    private const string SERVER_IP = "127.0.0.1";  // Change this to your server's IP
-    private const int SERVER_PORT = 6969;
+	private const string ServerIP = "84.3.90.43";
+	private const int ServerPort = 7070;
 
-    private static ClientWebSocket socketToServer = new();
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        // Start connection attempt as soon as the node is ready
-        GD.Print("Attempting to connect to server...");
-        ClientConn().Wait();
-        SendMessage("fuk u").Wait();
-        DoRecieve();
-    }
-    public async Task ClientConn()
-    {
-        var serverUri = new Uri("ws://127.0.0.1:6969/ws");
-        try
-        {
-            // Connect to the WebSocket server
-            Console.WriteLine("Connecting to WebSocket server...");
-            socketToServer.ConnectAsync(serverUri, CancellationToken.None).Wait();
-            Console.WriteLine("Connection established!");
+	private static readonly ClientWebSocket socketToServer = new();
 
-            // Send a message to the server
-            //var message = "Hello, WebSocket server!";
-            //var encodedMessage = Encoding.UTF8.GetBytes(message);
-            //var buffer = new ArraySegment<byte>(encodedMessage);
+	public async override void _Ready()
+	{
+		GD.Print("Attempting to connect to server...");
+		var serverUri = new Uri($"ws://{ServerIP}:{ServerPort}/ws");
+		try
+		{
+			await ConnectToServer(serverUri); 
+			if (socketToServer.State == WebSocketState.Open)
+			{
+				GD.Print("WebSocket connection is now open.");
+			}
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"Failed to connect to the server: {ex.Message}");
+		}
+	}
 
-            //await clientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
-            //Console.WriteLine("Message sent: " + message);
+	public static async Task ConnectToServer(Uri serverUri)
+	{
+		try
+		{
+			await socketToServer.ConnectAsync(serverUri, CancellationToken.None);
+			if (socketToServer.State == WebSocketState.Open)
+			{
+				GD.Print("WebSocket connection is now open.");
+			}
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"Error during connection: {ex.Message}");
+			throw; 
+		}
+	}
 
-            // Receive a message from the server
-            //var receiveBuffer = new ArraySegment<byte>(new byte[1024]);
-            //var result = await clientWebSocket.ReceiveAsync(receiveBuffer, CancellationToken.None);
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
 
-            //var receivedMessage = Encoding.UTF8.GetString(receiveBuffer.Array, 0, result.Count);
-            //Console.WriteLine("Message received: " + receivedMessage);
 
-        }
-        catch (WebSocketException ex)
-        {
-            Console.WriteLine("WebSocket exception: " + ex.Message);
-        }
+	public async static Task SendMessage<T>(Package<T> package)
+	{
+		if (socketToServer.State != WebSocketState.Open)
+		{
+			GD.Print("Cannot send message. WebSocket is not open.");
+			return;
+		}
 
-    }
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
-    public async Task SendMessage(string message)
-    {
-        var encodedMessage = Encoding.UTF8.GetBytes(message);
-        var buffer = new ArraySegment<byte>(encodedMessage);
+		string message = JsonSerializer.Serialize(package);
+		var encodedMessage = Encoding.UTF8.GetBytes(message);
+		var buffer = new ArraySegment<byte>(encodedMessage);
 
-        await socketToServer.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
-        GD.Print($"Attemoted to send: {message}");
-    }
-    public async void DoRecieve()
-    {
-        while (true)
-        {
-            string message = await ReceiveMessage();
-            if (message == null)
-            {
-                Console.WriteLine("Connection closed or error occurred.");
-                break;
-            }
-            Console.WriteLine("Received message: " + message);
-        }
-    }
-    public async Task<string> ReceiveMessage()
-    {
-        var receiveBuffer = new ArraySegment<byte>(new byte[1024]);
-        var result = await socketToServer.ReceiveAsync(receiveBuffer, CancellationToken.None);
-        return Encoding.UTF8.GetString(receiveBuffer.Array, 0, result.Count);
-    }
+		try
+		{
+			await socketToServer.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+			GD.Print($"Message sent: {message}");
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"Error sending message: {ex.Message}");
+		}
+	}
+
+
+	public async static Task<string> ReceiveMessage()
+	{
+		var receiveBuffer = new ArraySegment<byte>(new byte[1024]);
+		var result = await socketToServer.ReceiveAsync(receiveBuffer, CancellationToken.None);
+		return Encoding.UTF8.GetString(receiveBuffer.Array, 0, result.Count);
+	}
 }

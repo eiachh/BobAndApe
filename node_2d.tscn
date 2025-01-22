@@ -24,5 +24,3 @@ script = ExtResource("1_ghdsu")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(226, 322)
 sprite_frames = SubResource("SpriteFrames_tsh2o")
-
-[node name="asd" type="Node2D" parent="."]
