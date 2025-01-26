@@ -6,12 +6,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
-using PInfo;
 
 public static class ClientSingleton
 {
 	public static ClientSocket Socket { get; set; }
-	private static PlayerInfo Info { get; set; }
 
 	static ClientSingleton()
 	{
@@ -26,6 +24,7 @@ public partial class ClientSocket : Node
 	private const int ServerPort = 7070;
 
 	private static readonly ClientWebSocket socketToServer = new();
+	private bool isLogged = false;
 
 	public async override void _Ready()
 	{
@@ -33,9 +32,10 @@ public partial class ClientSocket : Node
 		var serverUri = new Uri($"ws://{ServerIP}:{ServerPort}/ws");
 		try
 		{
-			await ConnectToServer(serverUri); 
+			await ConnectToServer(serverUri);
 			if (socketToServer.State == WebSocketState.Open)
 			{
+				isLogged = true;
 				GD.Print("WebSocket connection is now open.");
 			}
 		}
@@ -45,7 +45,7 @@ public partial class ClientSocket : Node
 		}
 	}
 
-	public static async Task ConnectToServer(Uri serverUri)
+	public async Task ConnectToServer(Uri serverUri)
 	{
 		try
 		{
@@ -58,13 +58,14 @@ public partial class ClientSocket : Node
 		catch (Exception ex)
 		{
 			GD.PrintErr($"Error during connection: {ex.Message}");
-			throw; 
+			throw;
 		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 	}
 
 
@@ -72,7 +73,6 @@ public partial class ClientSocket : Node
 	{
 		if (socketToServer.State != WebSocketState.Open)
 		{
-			GD.Print("Cannot send message. WebSocket is not open.");
 			return;
 		}
 
@@ -91,11 +91,22 @@ public partial class ClientSocket : Node
 		}
 	}
 
-
-	public async static Task<string> ReceiveMessage()
+	public async static Task<object> ReceiveMessage()
 	{
+
 		var receiveBuffer = new ArraySegment<byte>(new byte[1024]);
 		var result = await socketToServer.ReceiveAsync(receiveBuffer, CancellationToken.None);
-		return Encoding.UTF8.GetString(receiveBuffer.Array, 0, result.Count);
+		var jsonString = Encoding.UTF8.GetString(receiveBuffer.Array, 0, result.Count);
+
+		using var jsonDoc = JsonDocument.Parse(jsonString);
+		string? packageName = jsonDoc.RootElement.GetProperty("name").GetString();
+
+		if (packageName == null || !PackageTypeMap.packageTypeMap.TryGetValue(packageName, out Type? packageType))
+		{
+			throw new InvalidOperationException($"Unknown package type: {packageName}");
+		}
+
+		object deserializedPackage = JsonSerializer.Deserialize(jsonString, packageType);
+		return deserializedPackage;
 	}
 }

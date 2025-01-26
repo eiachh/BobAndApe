@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmdp6s1tssxj3"]
+
+[ext_resource type="Script" path="res://LoginMenu.cs" id="1_mega1"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchor_left = 0.276
+anchor_top = 0.184
+anchor_right = 0.674
+anchor_bottom = 0.782
+offset_left = -317.952
+offset_top = -119.232
+offset_right = 375.552
+offset_bottom = 141.264
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+script = ExtResource("1_mega1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 247.0
+offset_top = 163.0
+offset_right = 372.0
+offset_bottom = 198.0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Username"
+
+[node name="SubmitButton" type="MenuButton" parent="."]
+custom_minimum_size = Vector2(155, 0)
+layout_mode = 2
+offset_left = 386.0
+offset_top = 210.0
+offset_right = 571.0
+offset_bottom = 254.0
+size_flags_horizontal = 4
+size_flags_vertical = 10
+focus_mode = 1
+mouse_default_cursor_shape = 2
+toggle_mode = false
+action_mode = 1
+text = "Submit"
+flat = false
+switch_on_hover = true
+
+[node name="UsernameTextbox" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(255, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -191.0
+offset_top = -157.0
+offset_right = 64.0
+offset_bottom = -126.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 25
+caret_blink = true
+
+[connection signal="pressed" from="SubmitButton" to="." method="_on_submit_button_pressed"]
+[connection signal="text_changed" from="UsernameTextbox" to="." method="_on_username_textbox_text_changed"]

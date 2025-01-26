@@ -14,7 +14,7 @@ public static class PackageFactory
 		};
 	}
 
-	public static Package<MoveBody> CreateMovePackage(Vector2 pos) 
+	public static Package<MoveBody> CreateMovePackage(Vector2 pos)
 	{
 		return new MoveCommand
 		{
@@ -23,6 +23,18 @@ public static class PackageFactory
 				MoveCommandType = "sync",
 				PosX = (int)pos.X,
 				PosY = (int)pos.Y
+			}
+		};
+	}
+
+	public static Package<AttackBody> CreateAttackPackage(int damage, string damageType, string target)
+	{
+		return new AttackCommand
+		{
+			Body = new AttackBody
+			{
+				Damage = damage,
+				DamageType = damageType
 			}
 		};
 	}

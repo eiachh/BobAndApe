@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://ftiomwnxq2bw"]
+
+[node name="LoginScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoginContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -157.0
+offset_right = 189.0
+offset_bottom = 129.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UsernameContainer" type="HBoxContainer" parent="LoginContainer"]
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="LoginContainer/UsernameContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Username"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UsernameTextbox" type="LineEdit" parent="LoginContainer/UsernameContainer"]
+custom_minimum_size = Vector2(255, 0)
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="LoginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Clear" type="Button" parent="LoginContainer/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Clear"
+
+[node name="Submit" type="Button" parent="LoginContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Submit"
+
+[connection signal="pressed" from="LoginContainer/ButtonsContainer/Clear" to="." method="_on_Clear_pressed"]
+[connection signal="pressed" from="LoginContainer/ButtonsContainer/Submit" to="." method="_on_Submit_pressed"]

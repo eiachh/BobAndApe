@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Package;
+using System.Threading.Tasks;
 
 public partial class Node2d : Node2D
 {
@@ -10,6 +11,7 @@ public partial class Node2d : Node2D
 	private float timeSinceLastUpdate = 0f;
 	private const float updateInterval = 1f / 120f;
 	private const float positionThreshold = 2f;
+	public bool n = true;
 
 
 
@@ -19,7 +21,7 @@ public partial class Node2d : Node2D
 
 	}
 
-	public override void _Process(double delta)
+	public override async void _Process(double delta)
 	{
 		timeSinceLastUpdate += (float)delta;
 		var velocity = Vector2.Zero; // The player's movement vector.
@@ -27,11 +29,18 @@ public partial class Node2d : Node2D
 		if (Input.IsActionPressed("move_right"))
 		{
 			velocity.X += 1;
+			ClientSocket.SendMessage(PackageFactory.CreateMovePackage(Position));
 		}
 
-		if (Input.IsActionPressed("move_left"))
+		if (Input.IsActionPressed("move_left") && n )
 		{
 			velocity.X -= 1;
+			n = false;
+			ClientSocket.SendMessage(PackageFactory.CreateLoginPackage("bobby tables"));
+			object response = await ClientSocket.ReceiveMessage();
+			LoginCommand lcResponse = (LoginCommand)response;
+			GD.Print(lcResponse.Body.UserID);
+			
 		}
 
 		if (Input.IsActionPressed("move_down"))
@@ -48,7 +57,8 @@ public partial class Node2d : Node2D
 
 		if (velocity.Length() > 0)
 		{
-			velocity = velocity.Normalized() * 30;
+			velocity = velocity.Normalized()*200;
+		
 			animatedSprite2D.Play();
 
 			Position += velocity * (float)delta;
@@ -63,7 +73,7 @@ public partial class Node2d : Node2D
 		}
 		if (timeSinceLastUpdate >= updateInterval || HasSignificantPositionChange())
 		{
-			ClientSocket.SendMessage(PackageFactory.CreateMovePackage(Position)).Wait();
+			//ClientSocket.SendMessage(PackageFactory.CreateMovePackage(Position)).Wait();
 
 			// Reset timer
 			timeSinceLastUpdate = 0f;

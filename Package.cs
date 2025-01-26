@@ -1,7 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+
 
 namespace Package
 {
+	public class PackageTypeMap
+	{
+		public static readonly Dictionary<string, Type> packageTypeMap = new()
+		{
+			{ "LoginCommand" , typeof(LoginCommand) },
+			{ "MoveCommand" , typeof(MoveCommand) },
+			{ "AttackCommand", typeof(AttackCommand) }
+		};
+
+	}
+
 	public abstract class Package<T>
 	{
 		[JsonPropertyName("name")]
@@ -11,27 +26,31 @@ namespace Package
 		public T Body { get; set; }
 	}
 
-	// LoginCommand implementation
 	public class LoginCommand : Package<LoginBody>
 	{
 		public override string Name => "LoginCommand";
 	}
 
-	// MoveCommand implementation
+
 	public class MoveCommand : Package<MoveBody>
 	{
 		public override string Name => "MoveCommand";
 	}
 
-	public class AttackComand : Package<AttackBody>
+	public class AttackCommand : Package<AttackBody>
 	{
 		public override string Name => "AttackCommand";
 	}
 
 	public class LoginBody
 	{
-		[JsonPropertyName("username")]
-		public string Username { get; set; }
+		[JsonPropertyName("namerequest")]
+		[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+		public string? Username { get; set; }
+
+		[JsonPropertyName("receiveduserid")]
+		[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+		public string? UserID { get; set; }
 	}
 
 	public class MoveBody
@@ -49,9 +68,9 @@ namespace Package
 	public class AttackBody
 	{
 		[JsonPropertyName("damage")]
-		public int damage { get; set; } 
+		public int Damage { get; set; }
 
 		[JsonPropertyName("damageType")]
-		public string damageType { get;set; }
+		public string DamageType { get; set; }
 	}
 }
