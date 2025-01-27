@@ -67,6 +67,8 @@ namespace Package
 
 	public class AttackBody
 	{
+		public string Target { get; set; }
+
 		[JsonPropertyName("damage")]
 		public int Damage { get; set; }
 

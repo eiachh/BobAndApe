@@ -33,6 +33,7 @@ public static class PackageFactory
 		{
 			Body = new AttackBody
 			{
+				Target = target,
 				Damage = damage,
 				DamageType = damageType
 			}

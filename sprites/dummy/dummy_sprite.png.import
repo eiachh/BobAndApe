@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p1mxseex2vn5"
-path="res://.godot/imported/login_layout.png-464ba8bfabe75986954b1227a8c94fef.ctex"
+uid="uid://jcsaxsei1nr1"
+path="res://.godot/imported/dummy_sprite.png-7c55b4d118563ff6d8ecf7c2998f1ea0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://login_layout.png"
-dest_files=["res://.godot/imported/login_layout.png-464ba8bfabe75986954b1227a8c94fef.ctex"]
+source_file="res://sprites/dummy/dummy_sprite.png"
+dest_files=["res://.godot/imported/dummy_sprite.png-7c55b4d118563ff6d8ecf7c2998f1ea0.ctex"]
 
 [params]
 
