@@ -6,34 +6,27 @@ public partial class TestChar : Area2D
     private KeksSkillController _skillController;
     public override void _Ready()
 	{
-        var animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        var idleSprite = GetNode<Sprite2D>("idle");
+        var animPlayer = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-        _skillController = KeksSkillController.CreateSkillController(animPlayer, idleSprite);
+        _skillController = KeksSkillController.CreateSkillController(animPlayer);
 
         // CHAINABLE SKILL
-        var chainSourceSprite = GetNode<Sprite2D>("chain-source");
-        PlayerSkill chainSourceSkill = new PlayerSkill("chain-source", 1500, "skill_2", chainSourceSprite);
-        var chainIntoSprite = GetNode<Sprite2D>("chained-into");
-        PlayerSkill chainedIntoSkill_chained = new PlayerSkill("chained-into", 1000, "NONE", chainIntoSprite);
-        var notChainInto = GetNode<Sprite2D>("not-chained-into");
-        PlayerSkill chainedIntoSkill_original = new PlayerSkill("not-chained-into", 2000, "skill_3", notChainInto);
+        PlayerSkill chainSourceSkill = new PlayerSkill("chain-source", 2000, "skill_2");
+        PlayerSkill chainedIntoSkill_chained = new PlayerSkill("chained-into", 1000, "NONE");
+        PlayerSkill chainedIntoSkill_original = new PlayerSkill("not-chained-into", 2000, "skill_3");
         chainSourceSkill.CreateSkillChainTo(chainedIntoSkill_original, chainedIntoSkill_chained, 1000);
         // CHAINABLE SKILL
 
         // CHARGABLE SKILL
-        var chargingSprite = GetNode<Sprite2D>("charging");
-        PlayerSkill chargingSkill1 = new PlayerSkill("charging", 999999, "skill_1", chargingSprite);
+        PlayerSkill chargingSkill1 = new PlayerSkill("charging", 999999, "skill_1");
         chargingSkill1.MakeSkillCancellable();
 
-        var chargeIntoSprite = GetNode<Sprite2D>("charge-into");
-        PlayerSkill chargeIntoSkill = new PlayerSkill("charge-into", 500, "NONE", chargeIntoSprite);
+        PlayerSkill chargeIntoSkill = new PlayerSkill("charge-into", 500, "NONE");
         chargingSkill1.ConvertSkillToCharging(chargeIntoSkill);
         // CHARGABLE SKILL
 
         // ANIM CANCELLING BLOCK
-        var blockSprite = GetNode<Sprite2D>("block");
-        PlayerSkill skilBlock = new PlayerSkill("block", 999999, "block", blockSprite);
+        PlayerSkill skilBlock = new PlayerSkill("block", 999999, "block");
         skilBlock.IsChargable = true;
         // ANIM CANCELLING BLOCK
 

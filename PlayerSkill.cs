@@ -3,12 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
+
 public class PlayerSkill 
 {
     private HashSet<string> _chainsFrom = new();
+    private ulong _animationLength;
 
+
+    public float CastSpeedModifier { get; set; } = 1.0f;
     public string AnimationName { get; set; }
-    public ulong AnimationLength { get; set; }
+    public ulong AnimationLength 
+    {
+        get => Convert.ToUInt64((int)Math.Round(_animationLength / CastSpeedModifier));
+    }
     public string InputmapName { get; set; }
     public bool IsChargable { get; set; } = false;
     public Tuple<ulong,ulong> CancelTimeFrame{ get; private set; }
@@ -18,14 +25,12 @@ public class PlayerSkill
     public ulong RequiredElapseUntilChain { get; private set; }
     public IReadOnlySet<string> ChainsFrom { get => _chainsFrom; }
     public PlayerSkill ChainedVersion { get; private set; }
-    public Sprite2D Sprite { get; set; } = null;
 
-    public PlayerSkill(string animName, ulong animLength, string inputMapName, Sprite2D sprite)
+    public PlayerSkill(string animName, ulong animLength, string inputMapName)
     {
         AnimationName = animName;
-        AnimationLength = animLength;
+        _animationLength = animLength;
         InputmapName = inputMapName;
-        Sprite = sprite;
     }
 
     public void CreateSkillChainTo(PlayerSkill chainTo, PlayerSkill chainToSpedUpVersion,ulong requiredElapseUntilChain)

@@ -17,14 +17,12 @@ public partial class KeksSkillController
 	}
 
     private KeksSkillController(){}
-	public static KeksSkillController CreateSkillController(AnimationPlayer animPlayer, Sprite2D idleSprite)
+	public static KeksSkillController CreateSkillController(AnimatedSprite2D animPlayer)
 	{
 		if(instance == null)
 			instance = new KeksSkillController();
 
-		instance._idleSprite = idleSprite;
         instance._animationPlayer = animPlayer;
-
         return instance;
 	}
 
@@ -33,8 +31,7 @@ public partial class KeksSkillController
 
 	private PlayerSkill CurrentSkill = null;
 	private ulong CurrSkillStarted = 0;
-	private Sprite2D _idleSprite;
-	private AnimationPlayer _animationPlayer;
+	private AnimatedSprite2D _animationPlayer;
 
 
     public void RegisterSkill(PlayerSkill skill)
@@ -55,6 +52,7 @@ public partial class KeksSkillController
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public void _Process(double delta)
 	{
+
         var elapsedSinceCast = Time.GetTicksMsec() - CurrSkillStarted;
 		HandleSkillEnding(elapsedSinceCast);
 		HandleSkillCanceling(elapsedSinceCast);
@@ -164,7 +162,9 @@ public partial class KeksSkillController
 
 	private void StartSkill(PlayerSkill skill) 
 	{
-		CurrSkillStarted = Time.GetTicksMsec();
+        skill.CastSpeedModifier = 3.0f;
+        _animationPlayer.SpeedScale = 3.0f;
+        CurrSkillStarted = Time.GetTicksMsec();
         PlayAnim(CurrentSkill,skill);
         CurrentSkill = skill;
     }
@@ -193,30 +193,11 @@ public partial class KeksSkillController
 
 	private void PlayAnim(PlayerSkill from, PlayerSkill to)
 	{
-        _idleSprite.Visible = false;
-		MakeInvisible(from);
-
-
-        to.Sprite.Visible = true;
-
 		_animationPlayer.Play(to.AnimationName);
     }
 	private void DoIdle(PlayerSkill from)
 	{
-        MakeInvisible(from);
-
         CurrentSkill = null;
-
-        _idleSprite.Visible = true;
 		_animationPlayer.Play("idle");
 	}
-	private void MakeInvisible(PlayerSkill skill)
-	{
-        if (skill != null)
-        {
-            skill.Sprite.Visible = false;
-            if (skill.ChainedVersion != null)
-                skill.ChainedVersion.Sprite.Visible = false;
-        }
-    }
 }
