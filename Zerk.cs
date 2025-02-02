@@ -4,7 +4,7 @@ using System;
 public partial class Zerk : Area2D
 {
     // Called when the node enters the scene tree for the first time.
-    private KeksSkillController _skillController;
+    private SkillController _skillController;
     public override void _Ready()
 	{
         //var animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");

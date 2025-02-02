@@ -3,12 +3,12 @@ using System;
 
 public partial class TestChar : Area2D
 {
-    private KeksSkillController _skillController;
+    private SkillController _skillController;
     public override void _Ready()
 	{
         var animPlayer = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-        _skillController = KeksSkillController.CreateSkillController(animPlayer);
+        _skillController = SkillController.InitSkillController(animPlayer);
 
         // CHAINABLE SKILL
         PlayerSkill chainSourceSkill = new PlayerSkill("chain-source", 2000, "skill_2");

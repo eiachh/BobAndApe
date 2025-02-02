@@ -8,21 +8,42 @@ public class PlayerSkill
 {
     private HashSet<string> _chainsFrom = new();
     private ulong _animationLength;
+    private ulong _requiredElapseUntilChain;
+    private ulong _activeCancelPunishmentUntil;
+    private ulong _defaultCancelPunishment=300;
+    private Tuple<ulong, ulong> _cancelTimeFrame;
 
 
     public float CastSpeedModifier { get; set; } = 1.0f;
     public string AnimationName { get; set; }
     public ulong AnimationLength 
     {
-        get => Convert.ToUInt64((int)Math.Round(_animationLength / CastSpeedModifier));
+        get => RecalculateWithSpeed(_animationLength);
+        private set => _animationLength = value;
     }
     public string InputmapName { get; set; }
     public bool IsChargable { get; set; } = false;
-    public Tuple<ulong,ulong> CancelTimeFrame{ get; private set; }
-    public ulong ActiveCancelPunishmentUntil { get; private set; }
-    public ulong DefaultCancelPunishment { get; private set; } = 300;
+    public Tuple<ulong,ulong> CancelTimeFrame
+    {
+        get => new Tuple<ulong, ulong>(RecalculateWithSpeed(_cancelTimeFrame.Item1), RecalculateWithSpeed(_cancelTimeFrame.Item2));
+        private set => _cancelTimeFrame = value;
+    }
+    public ulong ActiveCancelPunishmentUntil 
+    {
+        get => RecalculateWithSpeed(_activeCancelPunishmentUntil);
+        private set => _activeCancelPunishmentUntil = value;
+    }
+    public ulong DefaultCancelPunishment 
+    {
+        get => RecalculateWithSpeed(_defaultCancelPunishment);
+        private set => _defaultCancelPunishment = value;
+    }
     // Timeframe from allowed to chain cast next
-    public ulong RequiredElapseUntilChain { get; private set; }
+    public ulong RequiredElapseUntilChain 
+    {
+        get => RecalculateWithSpeed(_requiredElapseUntilChain);
+        private set => _requiredElapseUntilChain = value; 
+    }
     public IReadOnlySet<string> ChainsFrom { get => _chainsFrom; }
     public PlayerSkill ChainedVersion { get; private set; }
 
@@ -64,5 +85,18 @@ public class PlayerSkill
     public void ActivateCancelPunishment(ulong elapsedSinceCast)
     {
         ActiveCancelPunishmentUntil = DefaultCancelPunishment + elapsedSinceCast;
+    }
+    public bool CanChainTo(PlayerSkill to)
+    {
+        if (to.ChainsFrom is null)
+            return false;
+
+        return to.ChainsFrom.Contains(this.AnimationName);
+    }
+    private ulong RecalculateWithSpeed(ulong original)
+    {
+        if (CastSpeedModifier == 1.0f)
+            return original;
+        return Convert.ToUInt64((int)Math.Round(original / CastSpeedModifier));
     }
 }
