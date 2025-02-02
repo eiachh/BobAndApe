@@ -86,6 +86,10 @@ public class PlayerSkill
     {
         ActiveCancelPunishmentUntil = DefaultCancelPunishment + elapsedSinceCast;
     }
+    public void ResetCancelPunishment()
+    {
+        ActiveCancelPunishmentUntil = 0;
+    }
     public bool CanChainTo(PlayerSkill to)
     {
         if (to.ChainsFrom is null)

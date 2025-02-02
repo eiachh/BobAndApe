@@ -15,6 +15,7 @@ public partial class TestChar : Area2D
         PlayerSkill chainedIntoSkill_chained = new PlayerSkill("chained-into", 1000, "NONE");
         PlayerSkill chainedIntoSkill_original = new PlayerSkill("not-chained-into", 2000, "skill_3");
         chainSourceSkill.CreateSkillChainTo(chainedIntoSkill_original, chainedIntoSkill_chained, 1000);
+        chainSourceSkill.MakeSkillCancellable(1500);
         // CHAINABLE SKILL
 
         // CHARGABLE SKILL

@@ -105,6 +105,7 @@ public partial class SkillController
         if (CurrentSkill?.AnimationLength <= elapsedSinceCast)
         {
             GD.PrintErr($"ANIM END GOING IDLE, ELAPSED: {elapsedSinceCast}");
+            CurrentSkill.ResetCancelPunishment();
             DoIdle();
         }
     }
@@ -117,7 +118,7 @@ public partial class SkillController
     {
         foreach (PlayerSkill cancellingSkill in CancellingSkills)
         {
-            if (Input.IsActionPressed(cancellingSkill.InputmapName))
+            if (Input.IsActionJustPressed(cancellingSkill.InputmapName))
             {
                 if (CurrentSkill == cancellingSkill)
                 {
@@ -239,7 +240,7 @@ public partial class SkillController
         }
         if (toCancel.CancelTimeFrame.Item1 < elapsedSinceCast && elapsedSinceCast < toCancel.CancelTimeFrame.Item2)
         {
-            GD.Print("Succesfull skil cancel");
+            GD.Print($"Succesfull skil cancel at: {elapsedSinceCast}");
             return true;
         }
         GD.PrintErr("Failed to cancel ACTIVATING PUNISHMENT");
