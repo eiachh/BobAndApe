@@ -33,7 +33,7 @@ namespace Package
 	}
 	public class LoginAcceptCommand : Package<LoginAcceptBody>
 	{
-		public override string Name => "LoginCommand";
+		public override string Name => "LoginAcceptCommand";
 	}
 
 
