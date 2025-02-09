@@ -1,14 +1,16 @@
 using Godot;
 using System;
 
-public partial class TestChar : Area2D
+public partial class Zerk : Area2D
 {
-    private SkillController _skillController;
+    // Called when the node enters the scene tree for the first time.
+    private PlayerSkillController _skillController;
     public override void _Ready()
 	{
         var animPlayer = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-        _skillController = SkillController.InitSkillController(animPlayer);
+        _skillController = PlayerSkillController.InitSkillController(animPlayer);
+        _skillController.CastSpeedScale = 1f;
 
         // CHAINABLE SKILL
         PlayerSkill chainSourceSkill = new PlayerSkill("chain-source", 2000, "skill_2");
@@ -22,7 +24,7 @@ public partial class TestChar : Area2D
         PlayerSkill chargingSkill1 = new PlayerSkill("charging", 999999, "skill_1");
         chargingSkill1.MakeSkillCancellable();
 
-        PlayerSkill chargeIntoSkill = new PlayerSkill("charge-into", 500, "NONE");
+        PlayerSkill chargeIntoSkill = new PlayerSkill("charge-into", 1000, "NONE");
         chargingSkill1.ConvertSkillToCharging(chargeIntoSkill);
         // CHARGABLE SKILL
 

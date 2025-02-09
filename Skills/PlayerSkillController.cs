@@ -2,35 +2,35 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class SkillController
+public partial class PlayerSkillController
 {
-    private SkillController() {}
+    private PlayerSkillController() {}
     /// <summary>
     /// Static singleton instance controller, or returns the existing instance. Needs to be init'ed at least once or the animations won't play.
     /// </summary>
     /// <param name="animPlayer"></param>
     /// <returns></returns>
-    public static SkillController InitSkillController(AnimatedSprite2D animPlayer)
+    public static PlayerSkillController InitSkillController(AnimatedSprite2D animPlayer)
     {
         if (instance == null)
-            instance = new SkillController();
+            instance = new PlayerSkillController();
 
         instance._animationPlayer = animPlayer;
         return instance;
     }
 
-    private static SkillController instance;
+    private static PlayerSkillController instance;
 
     /// <summary>
     /// NEED TO INIT AT LEAST ONCE.
     /// Returns the singleton instance. 
     /// </summary>
-    public static SkillController Instance
+    public static PlayerSkillController Instance
     {
         get
         {
             if (instance == null)
-                return new SkillController();
+                return new PlayerSkillController();
             return instance;
         }
         private set => instance = value;

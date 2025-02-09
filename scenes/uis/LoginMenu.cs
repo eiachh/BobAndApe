@@ -14,13 +14,20 @@ public partial class LoginMenu : Control
 		_usernameTextbox = GetNode<LineEdit>("UsernameTextbox");
 	}
 
-  
+	private void OnLoginSuccess(LoginAcceptCommand acceptBody)
+	{
+        var controller = GetNode<GameController>("/root/GameController");
+		controller.OnLoginSuccess(Username, acceptBody.Body.UserID);
+    }
 
-	private async void _on_submit_button_pressed() 
+	private void _on_submit_button_pressed() 
 	{
 		ClientSocket.SendMessage(PackageFactory.CreateLoginPackage(Username)).Wait();
-		ClientSocket.ReceiveMessage();
-	}
+		var loginObj = ClientSocket.ReceiveMessage().Result;
+		var sdsdsdwewe = loginObj.GetType();
+		var sdsdsd = loginObj as LoginAcceptCommand;
+        OnLoginSuccess(sdsdsd);
+    }
 	
 	private void _on_username_textbox_text_changed(string newText)
 	{

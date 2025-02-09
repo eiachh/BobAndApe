@@ -2,25 +2,17 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using KyreanIsRetarded.Skills;
 
 
-public class PlayerSkill 
+public class PlayerSkill : Skill
 {
     private HashSet<string> _chainsFrom = new();
-    private ulong _animationLength;
     private ulong _requiredElapseUntilChain;
     private ulong _activeCancelPunishmentUntil;
     private ulong _defaultCancelPunishment=300;
     private Tuple<ulong, ulong> _cancelTimeFrame;
 
-
-    public float CastSpeedModifier { get; set; } = 1.0f;
-    public string AnimationName { get; set; }
-    public ulong AnimationLength 
-    {
-        get => RecalculateWithSpeed(_animationLength);
-        private set => _animationLength = value;
-    }
     public string InputmapName { get; set; }
     public bool IsChargable { get; set; } = false;
     public Tuple<ulong,ulong> CancelTimeFrame
@@ -47,10 +39,8 @@ public class PlayerSkill
     public IReadOnlySet<string> ChainsFrom { get => _chainsFrom; }
     public PlayerSkill ChainedVersion { get; private set; }
 
-    public PlayerSkill(string animName, ulong animLength, string inputMapName)
+    public PlayerSkill(string animName, ulong animLength, string inputMapName) : base(animName, animLength)
     {
-        AnimationName = animName;
-        _animationLength = animLength;
         InputmapName = inputMapName;
     }
 
@@ -96,11 +86,5 @@ public class PlayerSkill
             return false;
 
         return to.ChainsFrom.Contains(this.AnimationName);
-    }
-    private ulong RecalculateWithSpeed(ulong original)
-    {
-        if (CastSpeedModifier == 1.0f)
-            return original;
-        return Convert.ToUInt64((int)Math.Round(original / CastSpeedModifier));
     }
 }

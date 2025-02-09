@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://c1dmtred44qji"]
+
+[ext_resource type="Texture2D" uid="uid://we482qyb511n" path="res://sprites/bosses/idle.png" id="1_f6pq7"]
+[ext_resource type="Script" path="res://scenes/chars/bosses/ExampleBoss.cs" id="1_shgy7"]
+[ext_resource type="Texture2D" uid="uid://ok70n4itant6" path="res://sprites/bosses/idle2.png" id="2_cthro"]
+[ext_resource type="Texture2D" uid="uid://c54m6qjc3affk" path="res://sprites/bosses/skill1.png" id="3_7twx6"]
+[ext_resource type="Texture2D" uid="uid://ctrol7yy66255" path="res://sprites/bosses/skill1_alt.png" id="4_rp4on"]
+[ext_resource type="Texture2D" uid="uid://cu28gcdxttep" path="res://sprites/bosses/skill2.png" id="5_02n38"]
+[ext_resource type="Texture2D" uid="uid://cfh1qjkl3h7fk" path="res://sprites/bosses/skill2_alt.png" id="6_l2i54"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6bflr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_f6pq7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cthro")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7twx6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_rp4on")
+}],
+"loop": true,
+"name": &"skill1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_02n38")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_l2i54")
+}],
+"loop": true,
+"name": &"skill2",
+"speed": 11.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_re1bp"]
+
+[node name="ExampleBoss" type="Area2D"]
+script = ExtResource("1_shgy7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_6bflr")
+animation = &"skill2"
+autoplay = "idle"
+frame_progress = 0.967975
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_re1bp")

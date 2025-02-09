@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://8wmuxg55ad2x"]
+[gd_scene load_steps=69 format=3 uid="uid://d8mb8u4wx22y"]
 
 [ext_resource type="Script" path="res://Zerk.cs" id="1_g173o"]
 [ext_resource type="Texture2D" uid="uid://stukl3scc1d7" path="res://sprites/characters/example/block.png" id="2_dq2y6"]

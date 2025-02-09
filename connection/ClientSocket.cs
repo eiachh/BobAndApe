@@ -7,35 +7,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-public static class ClientSingleton
+public static class ClientSocket
 {
-	public static ClientSocket Socket { get; set; }
-
-	static ClientSingleton()
-	{
-		Socket = new ClientSocket();
-	}
-}
-
-
-public partial class ClientSocket : Node
-{
-	private const string ServerIP = "84.3.90.43";
-	private const int ServerPort = 7070;
 
 	private static readonly ClientWebSocket socketToServer = new();
-	private bool isLogged = false;
+	private static bool isConnected = false;
 
-	public async override void _Ready()
+	public static void Init(string ip, int port)
 	{
-		GD.Print("Attempting to connect to server...");
-		var serverUri = new Uri($"ws://{ServerIP}:{ServerPort}/ws");
+        GD.Print("Attempting to connect to server...");
+		var serverUri = new Uri($"ws://{ip}:{port}/ws");
 		try
 		{
-			await ConnectToServer(serverUri);
+			ConnectToServer(serverUri);
 			if (socketToServer.State == WebSocketState.Open)
 			{
-				isLogged = true;
+                isConnected = true;
 				GD.Print("WebSocket connection is now open.");
 			}
 		}
@@ -45,11 +32,11 @@ public partial class ClientSocket : Node
 		}
 	}
 
-	public async Task ConnectToServer(Uri serverUri)
+	private static void ConnectToServer(Uri serverUri)
 	{
 		try
 		{
-			await socketToServer.ConnectAsync(serverUri, CancellationToken.None);
+			socketToServer.ConnectAsync(serverUri, CancellationToken.None).Wait();
 			if (socketToServer.State == WebSocketState.Open)
 			{
 				GD.Print("WebSocket connection is now open.");
@@ -60,12 +47,6 @@ public partial class ClientSocket : Node
 			GD.PrintErr($"Error during connection: {ex.Message}");
 			throw;
 		}
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-
 	}
 
 
