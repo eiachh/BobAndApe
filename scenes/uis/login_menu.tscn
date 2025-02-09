@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmdp6s1tssxj3"]
+[gd_scene load_steps=2 format=3 uid="uid://dakgm3mxwqgan"]
 
 [ext_resource type="Script" path="res://scenes/uis/LoginMenu.cs" id="1_6sxme"]
 
@@ -63,5 +63,13 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 25
 caret_blink = true
 
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 638.0
+offset_top = 234.0
+offset_right = 682.0
+offset_bottom = 258.0
+
 [connection signal="pressed" from="SubmitButton" to="." method="_on_submit_button_pressed"]
 [connection signal="text_changed" from="UsernameTextbox" to="." method="_on_username_textbox_text_changed"]
+[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]

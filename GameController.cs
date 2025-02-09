@@ -31,7 +31,7 @@ public partial class GameController : Node
 	{
 		Player player = new Player(userName, uuid);
 		this.Player = player;
-
+		GD.Print("Omg it works.");
 		LoadScene(SceneDict.GameScenes.ExampleLobby);
 	}
 

@@ -11,8 +11,8 @@ namespace Package
 		public static readonly Dictionary<string, Type> packageTypeMap = new()
 		{
 			{ "LoginCommand" , typeof(LoginCommand) },
-            { "LoginAcceptCommand", typeof(LoginAcceptCommand) },
-            { "MoveCommand" , typeof(MoveCommand) },
+			{ "LoginAcceptCommand", typeof(LoginAcceptCommand) },
+			{ "MoveCommand" , typeof(MoveCommand) },
 			{ "AttackCommand", typeof(AttackCommand) },
 		};
 
@@ -31,6 +31,7 @@ namespace Package
 	{
 		public override string Name => "LoginCommand";
 	}
+	
 	public class LoginAcceptCommand : Package<LoginAcceptBody>
 	{
 		public override string Name => "LoginAcceptCommand";
@@ -54,13 +55,13 @@ namespace Package
 		public string Username { get; set; }
 	}
 
-    public class LoginAcceptBody
-    {
-        [JsonPropertyName("receiveduserid")]
-        public string UserID { get; set; }
-    }
+	public class LoginAcceptBody
+	{
+		[JsonPropertyName("receiveduserid")]
+		public string UserID { get; set; }
+	}
 
-    public class MoveBody
+	public class MoveBody
 	{
 		[JsonPropertyName("movecommandtype")]
 		public string MoveCommandType { get; set; } = "sync";

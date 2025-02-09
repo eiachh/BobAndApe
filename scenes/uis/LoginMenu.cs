@@ -16,22 +16,22 @@ public partial class LoginMenu : Control
 
 	private void OnLoginSuccess(LoginAcceptCommand acceptBody)
 	{
-        var controller = GetNode<GameController>("/root/GameController");
+		var controller = GetNode<GameController>("/root/GameController");
 		controller.OnLoginSuccess(Username, acceptBody.Body.UserID);
-    }
+	}
 
-	private void _on_submit_button_pressed() 
+	private async void _on_submit_button_pressed() 
 	{
 		ClientSocket.SendMessage(PackageFactory.CreateLoginPackage(Username)).Wait();
-		var loginObj = ClientSocket.ReceiveMessage().Result;
-		var sdsdsdwewe = loginObj.GetType();
-		var sdsdsd = loginObj as LoginAcceptCommand;
-        OnLoginSuccess(sdsdsd);
-    }
+		object loginObj = await ClientSocket.ReceiveMessage();
+		LoginAcceptCommand sdsdsd = loginObj as LoginAcceptCommand;
+		OnLoginSuccess(sdsdsd);
+	}
 	
 	private void _on_username_textbox_text_changed(string newText)
 	{
 		Username = newText;
 		GD.Print($"{Username}");
 	}
+	
 }

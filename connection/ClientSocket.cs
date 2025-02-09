@@ -15,14 +15,14 @@ public static class ClientSocket
 
 	public static void Init(string ip, int port)
 	{
-        GD.Print("Attempting to connect to server...");
+		GD.Print("Attempting to connect to server...");
 		var serverUri = new Uri($"ws://{ip}:{port}/ws");
 		try
 		{
 			ConnectToServer(serverUri);
 			if (socketToServer.State == WebSocketState.Open)
 			{
-                isConnected = true;
+				isConnected = true;
 				GD.Print("WebSocket connection is now open.");
 			}
 		}
@@ -56,7 +56,7 @@ public static class ClientSocket
 		{
 			return;
 		}
-
+		
 		string message = JsonSerializer.Serialize(package);
 		var encodedMessage = Encoding.UTF8.GetBytes(message);
 		var buffer = new ArraySegment<byte>(encodedMessage);
@@ -74,7 +74,7 @@ public static class ClientSocket
 
 	public async static Task<object> ReceiveMessage()
 	{
-
+		GD.Print("Received something?");
 		var receiveBuffer = new ArraySegment<byte>(new byte[1024]);
 		var result = await socketToServer.ReceiveAsync(receiveBuffer, CancellationToken.None);
 		var jsonString = Encoding.UTF8.GetString(receiveBuffer.Array, 0, result.Count);
@@ -88,6 +88,7 @@ public static class ClientSocket
 		}
 
 		object deserializedPackage = JsonSerializer.Deserialize(jsonString, packageType);
+		GD.Print(jsonString);
 		return deserializedPackage;
 	}
 }
