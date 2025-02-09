@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://byjyhoih0bk6o"]
 
-[ext_resource type="Texture2D" uid="uid://jcsaxsei1nr1" path="res://sprites/dummy/dummy_sprite.png" id="1_cibnc"]
+[ext_resource type="Texture2D" uid="uid://jcsaxsei1nr1" path="res://sprites/characters/dummy/dummy_sprite.png" id="1_cibnc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_byjwq"]
 size = Vector2(47, 98)

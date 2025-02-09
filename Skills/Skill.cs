@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KyreanIsRetarded.Skills
+namespace BobAndApe.Skills
 {
     public class Skill
     {

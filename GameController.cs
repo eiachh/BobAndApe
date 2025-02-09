@@ -1,7 +1,7 @@
 using Godot;
 using PInfo;
 using System;
-using KyreanIsRetarded.scenes;
+using BobAndApe.scenes;
 
 /// <summary>
 /// Singleton get with "GetNode<GameController>("/root/GameController");"

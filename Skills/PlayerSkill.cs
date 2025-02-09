@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using KyreanIsRetarded.Skills;
+using BobAndApe.Skills;
 
 
 public class PlayerSkill : Skill

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhl13j776hag2"
-path="res://.godot/imported/bob1.png-44759ad38e42c30345b1389c403616e0.ctex"
+uid="uid://jcsaxsei1nr1"
+path="res://.godot/imported/dummy_sprite.png-a3824f5ffb4797d93b13c097ed5b098f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bob1.png"
-dest_files=["res://.godot/imported/bob1.png-44759ad38e42c30345b1389c403616e0.ctex"]
+source_file="res://sprites/characters/dummy/dummy_sprite.png"
+dest_files=["res://.godot/imported/dummy_sprite.png-a3824f5ffb4797d93b13c097ed5b098f.ctex"]
 
 [params]
 

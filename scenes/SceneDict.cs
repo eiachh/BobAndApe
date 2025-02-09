@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KyreanIsRetarded.scenes
+namespace BobAndApe.scenes
 {
     public static class SceneDict
     {
@@ -28,7 +28,7 @@ namespace KyreanIsRetarded.scenes
         {
             { GameScenes.LoginMenu, "res://scenes/uis/login_menu.tscn" },
             { GameScenes.ExampleLobby, "res://scenes/uis/example_scene_load.tscn" },
-            { GameScenes.ExampleBossArena, "res://scenes/areas/example_area.tscn" },
+            { GameScenes.ExampleBossArena, "res://scenes/areas/example/example_area.tscn" },
         };
     }
 }

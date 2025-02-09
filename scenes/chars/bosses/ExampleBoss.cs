@@ -1,5 +1,5 @@
 using Godot;
-using KyreanIsRetarded.Skills;
+using BobAndApe.Skills;
 using System;
 
 public partial class ExampleBoss : Area2D

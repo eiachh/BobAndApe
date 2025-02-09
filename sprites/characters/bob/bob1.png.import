@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ag67pehsmmm"
-path="res://.godot/imported/bob_unleashed.png-24803a121a2ec9ba09d5dfc43e2d419f.ctex"
+uid="uid://dhl13j776hag2"
+path="res://.godot/imported/bob1.png-6423a2599256fb328669c6a24d33ce89.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bob_unleashed.png"
-dest_files=["res://.godot/imported/bob_unleashed.png-24803a121a2ec9ba09d5dfc43e2d419f.ctex"]
+source_file="res://sprites/characters/bob/bob1.png"
+dest_files=["res://.godot/imported/bob1.png-6423a2599256fb328669c6a24d33ce89.ctex"]
 
 [params]
 

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://f862uvl18el6"]
+
+[ext_resource type="Script" path="res://scenes/areas/example/example_init.cs" id="1_8n06u"]
+[ext_resource type="PackedScene" uid="uid://dbvc2l1cn1vak" path="res://scenes/chars/example.tscn" id="2_t8d8y"]
+[ext_resource type="Texture2D" uid="uid://cp2ulyt4u352t" path="res://sprites/areas/bg.jpg" id="3_a8fy2"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_8n06u")
+NpcScene = ExtResource("2_t8d8y")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(577.5, 335)
+scale = Vector2(1.57473, 1.6087)
+texture = ExtResource("3_a8fy2")
